@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
-
+#test
 def detect_red_circles(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_COLOR)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
