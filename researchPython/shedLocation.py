@@ -35,8 +35,8 @@ def allocate_sheds(circle_coord_house, combined_green_blue_coords, shed_coverage
 
     # Calculate the coverage to ensure it's above the minimum required
     total_households = len(circle_coord_house)
-    households_served = sum(min(len(houses), sheds_at_locations.get(dot, 0) * max_households_per_shed) for dot, houses in allocation.items())
-    coverage = households_served / total_households
+    households_swerved = sum(min(len(houses), sheds_at_locations.get(dot, 0) * max_households_per_shed) for dot, houses in allocation.items())
+    # coverage = households_served / total_households
 
     # if coverage < min_coverage:
     #     raise ValueError(f"Coverage target of {min_coverage:.2f} not met. Current coverage is {coverage:.2f}.")
