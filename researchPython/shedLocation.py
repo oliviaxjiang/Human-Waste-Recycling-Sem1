@@ -13,7 +13,7 @@
 from countHousehold import process_image_household
 from countGreen import process_image_green
 
-def allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=50, max_households_per_shed=4, min_coverage=0.95, max_sheds=120):
+def allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=50, max_households_per_shed=16, min_coverage=0.95, max_sheds=70):
     # Function to calculate Euclidean distance between two coordinates
     def distance(coord1, coord2):
         return ((coord1[0] - coord2[0]) ** 2 + (coord1[1] - coord2[1]) ** 2) ** 0.5
@@ -55,8 +55,8 @@ def allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=
     return sheds_at_locations
 
 # Obtain the coordinates from the images
-circle_coord_house, processed_image_house = process_image_household("households.jpg")
-circle_coord_green, processed_image_green = process_image_green("tailoredDots.jpg")
+circle_coord_house, processed_image_house = process_image_household("researchPython/households.jpg")
+circle_coord_green, processed_image_green = process_image_green("researchPython/tailoredDots.jpg")
 
 shed_coverage_radius = 500
 max_sheds = 240

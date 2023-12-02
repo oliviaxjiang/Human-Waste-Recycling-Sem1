@@ -73,7 +73,7 @@ def process_image_green(image_path, n_clusters=12):
 
 # The following lines are for testing the module directly
 if __name__ == "__main__":
-    image_path = 'tailoredDots.jpg'
+    image_path = 'researchPython/tailoredDots_withPickup.jpg'
     coords, processed_img = process_image_green(image_path)
 
     # Printing the coordinates

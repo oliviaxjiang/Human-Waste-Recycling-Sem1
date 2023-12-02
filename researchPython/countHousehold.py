@@ -48,7 +48,7 @@ def process_image_household(image_path, n_clusters=12):
 
         # Show the result
         cv2.imshow('Clustered Circles', img)
-        cv2.waitKey(0)
+        cv2.waitKey(100)
         cv2.destroyAllWindows()
 
     # Returning the coordinates and the labeled image
