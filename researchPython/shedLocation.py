@@ -1,52 +1,41 @@
-# from countHousehold import process_image_household
-# from countGreen import process_image_green
-
-# circle_coord_house, processed_image_house = process_image_household("households.jpg")
-# circle_coord_green, processed_image_green = process_image_green("tailoredDots.jpg")
-
-# for i, coord in enumerate(circle_coord_house):
-#     print(f"Circle {i+1}: X={coord[0]}, Y={coord[1]}")
-
-# for i, coord in enumerate(circle_coord_green):
-#     print(f"Circle {i+1}: X={coord[0]}, Y={coord[1]}")
-
 from countHousehold import process_image_household
 from countGreen import process_image_green
+from countBlue import process_image_blue
 
-def allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=50, max_households_per_shed=16, min_coverage=0.95, max_sheds=70):
+def allocate_sheds(circle_coord_house, combined_green_blue_coords, shed_coverage_radius=50, max_households_per_shed=16, min_coverage=0.95, max_sheds=70):
     # Function to calculate Euclidean distance between two coordinates
     def distance(coord1, coord2):
         return ((coord1[0] - coord2[0]) ** 2 + (coord1[1] - coord2[1]) ** 2) ** 0.5
     
-    # Find the nearest green dot for each household within the shed_coverage_radius
+    # Find the nearest dot (green or blue) for each household within the shed_coverage_radius
     allocation = {}
     for house in circle_coord_house:
-        # Find distances to all green dots
-        distances = [distance(house, green) for green in circle_coord_green]
-        # Get the nearest green dot
-        nearest_green_dot_index = min(range(len(distances)), key=distances.__getitem__)
-        if distances[nearest_green_dot_index] <= shed_coverage_radius:
-            if circle_coord_green[nearest_green_dot_index] not in allocation:
-                allocation[circle_coord_green[nearest_green_dot_index]] = []
-            allocation[circle_coord_green[nearest_green_dot_index]].append(house)
+        # Find distances to all dots (green and blue)
+        distances = [distance(house, dot) for dot in combined_green_blue_coords]
+        # Get the nearest dot
+        nearest_dot_index = min(range(len(distances)), key=distances.__getitem__)
+        if distances[nearest_dot_index] <= shed_coverage_radius:
+            nearest_dot = combined_green_blue_coords[nearest_dot_index]
+            if nearest_dot not in allocation:
+                allocation[nearest_dot] = []
+            allocation[nearest_dot].append(house)
 
     # Sort allocations by number of households they can serve
     sorted_allocations = sorted(allocation.items(), key=lambda item: len(item[1]), reverse=True)
     
-    # Determine how many sheds to build at each green dot location
+    # Determine how many sheds to build at each dot location
     sheds_at_locations = {}
     shed_count = 0
-    for green_dot, houses in sorted_allocations:
+    for dot, houses in sorted_allocations:
         if shed_count >= max_sheds:
             break  # Stop if the maximum number of sheds has been reached
         sheds_needed = min(-(-len(houses) // max_households_per_shed), max_sheds - shed_count)
-        sheds_at_locations[green_dot] = sheds_needed
+        sheds_at_locations[dot] = sheds_needed
         shed_count += sheds_needed
 
     # Calculate the coverage to ensure it's above the minimum required
     total_households = len(circle_coord_house)
-    # Only calculate households served for green dots where sheds have been allocated
-    households_served = sum(min(len(houses), sheds_at_locations.get(green_dot, 0) * max_households_per_shed) for green_dot, houses in allocation.items())
+    households_served = sum(min(len(houses), sheds_at_locations.get(dot, 0) * max_households_per_shed) for dot, houses in allocation.items())
     coverage = households_served / total_households
 
     # if coverage < min_coverage:
@@ -55,15 +44,19 @@ def allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=
     return sheds_at_locations
 
 # Obtain the coordinates from the images
-circle_coord_house, processed_image_house = process_image_household("researchPython/households.jpg")
-circle_coord_green, processed_image_green = process_image_green("researchPython/tailoredDots.jpg")
+circle_coord_house, _ = process_image_household("researchPython/households.jpg")
+circle_coord_green, _ = process_image_green("researchPython/tailoredDots.jpg")
+circle_coord_blue, _ = process_image_blue('researchPython/tailoredDots_withPickup.jpg')
+
+# Combine green and blue coordinates
+combined_green_blue_coords = circle_coord_green + circle_coord_blue
 
 shed_coverage_radius = 500
 max_sheds = 240
 
 # Use the allocation function to determine shed locations
 try:
-    shed_allocation = allocate_sheds(circle_coord_house, circle_coord_green, shed_coverage_radius=shed_coverage_radius, max_sheds=max_sheds)
+    shed_allocation = allocate_sheds(circle_coord_house, combined_green_blue_coords, shed_coverage_radius=shed_coverage_radius, max_sheds=max_sheds)
     total_sheds = sum(shed_allocation.values())  # Calculate the total number of sheds allocated
     print("Shed allocation complete. Shed locations and counts:")
     for location, count in shed_allocation.items():
@@ -71,5 +64,6 @@ try:
     print(f"Total sheds allocated: {total_sheds}")  # Print the total amount of sheds
 except ValueError as e:
     print(e)
+
 
 
