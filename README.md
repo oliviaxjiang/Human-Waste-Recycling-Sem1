@@ -13,14 +13,14 @@ Develop an automated system to identify optimal routes for kiln circulation to m
 - pip (Python Package Installer).
 
 ### Installing Dependencies ###
-# Install OpenCV for image processing
-pip install opencv-python-headless
+#### Install OpenCV for image processing ####
+- pip install opencv-python-headless
 
-# Install NumPy for numerical computing
-pip install numpy
+#### Install NumPy for numerical computing ####
+- pip install numpy
 
-# Install scikit-learn for the KMeans clustering algorithm
-pip install scikit-learn
+#### Install scikit-learn for the KMeans clustering algorithm####
+- pip install scikit-learn
 
 # Repository Structure #
 Explanation of the scripts included in the repository and their roles:
@@ -32,7 +32,7 @@ Explanation of the scripts included in the repository and their roles:
 - `shedLocation.py`: Algorithm for assigning households to nearest kiln location.
 
 # Usage #
-How to run the scripts and examples of output data.
+Run individual files by running the file as a whole.
 
 # Acknowledgments #
 
