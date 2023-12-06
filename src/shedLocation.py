@@ -44,9 +44,9 @@ def allocate_sheds(circle_coord_house, combined_green_blue_coords, shed_coverage
     return sheds_at_locations
 
 # Obtain the coordinates from the images
-circle_coord_house, _ = process_image_household("researchPython/households.jpg")
-circle_coord_green, _ = process_image_green("researchPython/tailoredDots.jpg")
-circle_coord_blue, _ = process_image_blue('researchPython/tailoredDots_withPickup.jpg')
+circle_coord_house, _ = process_image_household("src/households.jpg")
+circle_coord_green, _ = process_image_green("src/tailoredDots.jpg")
+circle_coord_blue, _ = process_image_blue('src/tailoredDots_withPickup.jpg')
 
 # Combine green and blue coordinates
 combined_green_blue_coords = circle_coord_green + circle_coord_blue
