@@ -8,6 +8,19 @@ This project aims to optimize the circulation of Kontiki kilns throughout the Ny
 Develop an automated system to identify optimal routes for kiln circulation to maximize coverage and accessibility for the local population, with the aid of image recognition and geospatial analysis.
 
 # Installation #
+### Prerequisites ###
+- Python 3.7 or higher.
+- pip (Python Package Installer).
+
+### Installing Dependencies ###
+# Install OpenCV for image processing
+pip install opencv-python-headless
+
+# Install NumPy for numerical computing
+pip install numpy
+
+# Install scikit-learn for the KMeans clustering algorithm
+pip install scikit-learn
 
 # Repository Structure #
 Explanation of the scripts included in the repository and their roles:
