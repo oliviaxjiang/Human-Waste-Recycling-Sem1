@@ -31,6 +31,20 @@ Explanation of the scripts included in the repository and their roles:
 - `countBlue.py`: Counts blue dots representing road locations.
 - `shedLocation.py`: Algorithm for assigning households to nearest kiln location.
 
+# File Specifications #
+#### green.py ####
+This Python script is designed to identify and mark green spaces in an image. It first converts the image to the HSV color space and then applies a mask to isolate the green areas based on a specified color range.
+- The find_green_spaces function returns this mask
+- The detect_blobs function uses the mask to find and highlight significant green areas (blobs) larger than a minimum size.
+#### countGreen.py, countHousehold.py, and countBlue.py ####
+These scripts contains a set of functions for detecting, extracting, and clustering red/blue/yellow circles from a given image, which is primarily used to identify locations of interest such as households or resource points. 
+- The detect_circles/detect_red_circles/detect_blue_dots function reads an image and filters for the corresponding hues to detect circles using the Hough Transform method.
+- The extract_colors function calculates the average color within each detected circle.
+- The cluster_circles function applies KMeans clustering to group circles based on their spatial coordinates and color features, allowing for categorization of similar points.
+- The process_image_green function orchestrates the detection and clustering process and returns the coordinates of the circles and the processed image.
+#### shedLocation.py ####
+This Python script is designed to allocate sanitation facilities (referred to as 'sheds') in the Nylenda B area for efficient waste processing. It imports functions from countHousehold, countGreen, and countBlue modules to process images and identify household, green space, and road locations, respectively. The allocate_sheds function calculates the optimal placement of sheds based on proximity to households, green and blue coordinates combined, and predefined constraints such as coverage radius, maximum households per shed, and minimum coverage requirements. It outputs the allocation of sheds to locations and ensures the coverage meets the set target, raising an error if not. The main execution block processes the images to get coordinates, combines green and blue coordinates, sets parameters for coverage radius and maximum number of sheds, and attempts to allocate sheds while catching any exceptions related to coverage constraints.
+
 # Usage #
 Run individual files by running the file as a whole.
 

@@ -29,37 +29,31 @@ def cluster_circles(circles, circle_colors, n_clusters=12):
 
 def process_image_household(image_path, n_clusters=12):
     circles, img = detect_circles(image_path)
-    circle_coordinates = []  # List to store the coordinates of the circles
+    circle_coordinates = []  
 
     if circles is not None:
         print(f"Total circles detected: {len(circles[0])}")
         circle_colors = extract_colors(circles, img)
         labels = cluster_circles(circles, circle_colors, n_clusters=n_clusters)
 
-        # Visualization and coordinates extraction
         for i, circle in enumerate(circles[0]):
             print(f"Circle {i+1}: Center=({circle[0]}, {circle[1]}) Radius={circle[2]}")
             x, y, r = int(circle[0]), int(circle[1]), int(circle[2])
-            circle_coordinates.append((x, y))  # Adding coordinates to the list
+            circle_coordinates.append((x, y)) 
 
-            # Color assignment based on cluster label for visualization
             label_color = [0,0,0]
             cv2.circle(img, (x, y), r, label_color, 4)
 
-        # Show the result
         cv2.imshow('Clustered Circles', img)
         cv2.waitKey(100)
         cv2.destroyAllWindows()
 
-    # Returning the coordinates and the labeled image
     return circle_coordinates, img
 
-# The following lines are for testing the module directly
 if __name__ == "__main__":
-    image_path = 'households.jpg'
+    image_path = 'img/households.jpg'
     coords, processed_img = process_image_household(image_path)
 
-    # Printing the coordinates
     for i, coord in enumerate(coords):
         print(f"Circle {i+1}: X={coord[0]}, Y={coord[1]}")
 
